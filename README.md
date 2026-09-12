@@ -3,6 +3,12 @@
 Recommends what to wear by combining today's weather with the visual content
 of a clothing catalogue, rather than by category labels alone.
 
+## Open it
+
+The notebook:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Alimusy/Dress-Recommendation-System/blob/main/dress_recommendation.ipynb)
+
 ## How it works
 
 1. **Weather** — pulls current conditions for a city from the OpenWeatherMap
