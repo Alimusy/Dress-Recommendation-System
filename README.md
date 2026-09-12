@@ -1,50 +1,37 @@
-# Dress-Recommendation-System
-Personalized dress recommendation system using machine learning (ongoing project)
+# Weather Aware Dress Recommendation System
 
-# Dress Recommendation System
+Recommends what to wear by combining today's weather with the visual content
+of a clothing catalogue, rather than by category labels alone.
 
-This project focuses on building a personalized dress recommendation system using user preferences and product attributes. The goal is to suggest relevant fashion items based on similarity and preference patterns.
+## How it works
 
----
+1. **Weather** — pulls current conditions for a city from the OpenWeatherMap
+   API, then engineers features from the raw response: temperature band,
+   whether it is raining, humidity, and the season derived from the date.
+2. **Visual features** — each catalogue image goes through VGG16 pretrained on
+   ImageNet with the classification head removed, producing an embedding that
+   captures how a garment actually looks rather than how it was tagged.
+3. **Catalogue** — the clothing inventory is read live from a Google Sheet, so
+   items can be added without touching the code.
+4. **Recommendation** — items are scored by similarity in the embedding space,
+   filtered by what the weather features make appropriate.
 
-## Problem Statement
-Choosing suitable outfits can be challenging due to the wide variety of options available. This project aims to recommend dresses that align with user preferences using data-driven techniques.
+Using image embeddings instead of tags is the interesting part. Two items
+labelled "jacket" can be completely different weights of garment, and the
+embedding sees that difference where the label does not.
 
----
+## Setup
 
-## Problem Type
-This is a **recommendation system problem**, not a traditional classification or regression task.  
-The project explores **content-based and similarity-based recommendation approaches**.
+```bash
+pip install pandas numpy requests tensorflow scikit-learn
+export OPENWEATHER_API_KEY=your_key_here
+```
 
----
+Get a free key at [openweathermap.org](https://openweathermap.org/api). The
+notebook reads it from the environment, never from the source.
 
-## Data
-The project uses fashion-related datasets containing dress attributes such as category, color, style, and user preferences.
+## Status
 
-*(Dataset details and sources will be documented as development progresses.)*
-
----
-
-## Approach
-- Data understanding and preprocessing
-- Exploratory Data Analysis (EDA)
-- Feature encoding (categorical and numerical)
-- Similarity-based or ML-driven recommendation techniques
-- Recommendation evaluation
-
----
-
-## Evaluation
-Evaluation focuses on recommendation relevance using qualitative analysis and ranking-based metrics (e.g., top-N recommendations).
-
----
-
-## Project Status
-**Ongoing** — data exploration and baseline recommendation logic in progress.
-
----
-
-## Future Work
-- Improve recommendation logic
-- Explore hybrid recommendation methods
-- Enhance personalization features
+Ongoing. The recommendation scoring works end to end; what it still needs is a
+real user preference signal, since right now the ranking is driven entirely by
+weather fit and visual similarity with nothing personal in it.
